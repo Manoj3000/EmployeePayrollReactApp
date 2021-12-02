@@ -4,13 +4,14 @@ import img1 from "../assets/images/img1.png"
 import img2 from "../assets/images/img2.png"
 import img3 from "../assets/images/img3.png"
 import img4 from "../assets/images/img4.png"
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 
 function EmployeeFrom({ employeesArr, setEmployeesArr }) {
 
     const navigate = useNavigate();
+    const params = useParams()
 
     const departmentData = [{ name: "HR" }, { name: "Sales" }, { name: "Finance" }, { name: "Engineer" }, { name: "Others" }];
     const [departmentArr, setDepartmentArr] = useState([]);
@@ -28,18 +29,56 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
         }
     );
 
+    useEffect(() => {
+        employeesArr.forEach(element => {
+            if (element.id == params.id) {
+                document.getElementById("employee_id").value = params.id;
+
+                setEmployee({
+                    id: element.id,
+                    name: element.name,
+                    profilePic: element.profilePic,
+                    gender: element.gender,
+                    department: element.department,
+                    salary: element.salary,
+                    startDate: element.startDate,
+                    note: element.note
+                })
+            }
+        });
+    }, [])
+
     const submitHandler = e => {
         e.preventDefault();
 
-        setEmployeesArr([...employeesArr, employee]);
+        let emp_id = document.getElementById("employee_id").value
 
-        localStorage.setItem("employees", JSON.stringify([...employeesArr, employee]));
-
-        toast.success('Add Successfully!', {
-            position: "bottom-right",
-            autoClose: 2000,
-        });
-
+        if (emp_id) {
+            employeesArr.forEach(item => {
+                if (emp_id == item.id) {
+                    item.id = employee.id;
+                    item.name = employee.name;
+                    item.profilePic = employee.profilePic;
+                    item.gender = employee.gender;
+                    item.department = employee.department;
+                    item.salary = employee.salary;
+                    item.startDate = employee.startDate;
+                    item.note = employee.note;
+                }
+            })
+            localStorage.setItem("employees", JSON.stringify([...employeesArr]));
+            toast.success('Updated Successfully!', {
+                position: "bottom-right",
+                autoClose: 2000,
+            });
+        } else {
+            setEmployeesArr([...employeesArr, employee]);
+            localStorage.setItem("employees", JSON.stringify([...employeesArr, employee]));
+            toast.success('Added Successfully!', {
+                position: "bottom-right",
+                autoClose: 2000,
+            });
+        }
         setTimeout(() => { resetForm(); navigate("/"); }, 3000);
     }
 
@@ -84,6 +123,7 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
                 </div>
                 <hr />
                 <form id="myForm" onSubmit={submitHandler}>
+                    <input type="hidden" id="employee_id" />
                     <div className="form-group">
                         <label htmlFor="name" className="label_area" >Name : </label>
                         <input type="text" className="form-control shadow-sm" placeholder="Enter Name" id="name" name="name" value={employee.name} onChange={(e) => { setEmployee({ ...employee, name: e.target.value }) }} required />

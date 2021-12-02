@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
-function EmployeeList({employees}) {
+function EmployeeList({ employees }) {
 
     return (
         <>
@@ -26,14 +26,14 @@ function EmployeeList({employees}) {
                         {
                             employees.length > 0 ?
                                 employees.map((employee, index) => {
-                                    return <tr key={index}>
+                                    return <tr key={employee.id}>
                                         <td>{employee.name} </td>
                                         <td>{employee.gender}</td>
                                         <td>{employee.department.map((emp, i) => <span className="department_badde badge  badge-info mr-1" key={i}>{emp}</span>)}</td>
                                         <td>{employee.salary}</td>
                                         <td>{employee.startDate}</td>
                                         <td>
-                                            <i className="action_btn fa fa-edit  text-success px-1" title="Edit"></i>
+                                            <Link to={`/edit/${employee.id}`} className="action_btn fa fa-edit  text-success px-1" title="Edit"></Link>
                                             <i className="action_btn fa fa-trash text-danger px-1" title="Delete"></i>
                                         </td>
                                     </tr>
