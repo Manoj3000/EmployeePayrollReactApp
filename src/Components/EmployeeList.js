@@ -1,7 +1,21 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { toast } from 'react-toastify';
 
-function EmployeeList({ employees }) {
+function EmployeeList({ employees, setEmployeesArr }) {
+
+    const deleteEmployee = id => {
+        const newEmployeeList = employees.filter(item => item.id !== id)
+
+        setEmployeesArr([...newEmployeeList]);
+
+        localStorage.setItem("employees", JSON.stringify([...newEmployeeList]));
+
+        toast.success('Deleted Successfully!', {
+            position: "bottom-right",
+            autoClose: 2000,
+        });
+    }
 
     return (
         <>
@@ -34,7 +48,7 @@ function EmployeeList({ employees }) {
                                         <td>{employee.startDate}</td>
                                         <td>
                                             <Link to={`/edit/${employee.id}`} className="action_btn fa fa-edit  text-success px-1" title="Edit"></Link>
-                                            <i className="action_btn fa fa-trash text-danger px-1" title="Delete"></i>
+                                            <i onClick={() => deleteEmployee(employee.id)} className="action_btn fa fa-trash text-danger px-1" title="Delete"></i>
                                         </td>
                                     </tr>
                                 })

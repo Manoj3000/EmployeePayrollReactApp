@@ -27,7 +27,7 @@ function App() {
     <BrowserRouter>
       <div className="app">
         <Routes>
-          <Route path="/" element={<EmployeeList employees={employeesArr} />} />
+          <Route path="/" element={<EmployeeList employees={employeesArr} setEmployeesArr={setEmployeesArr} />} />
           <Route path="/add" element={<EmployeeFrom employeesArr={employeesArr} setEmployeesArr={setEmployeesArr} />} />
           <Route path="/edit/:id" element={<EmployeeFrom employeesArr={employeesArr} setEmployeesArr={setEmployeesArr} />} />
         </Routes>
