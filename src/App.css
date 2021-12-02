@@ -1,11 +1,44 @@
-.App {
-  text-align: center;
-  background-color: #282c34;
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.app{
+  margin-top: 40px;
+}
+
+.form_div{
+  max-width: 800px;
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  box-shadow: 0 0 20px rgb(80, 80, 80);
+}
+
+.list_div{
+  border-radius: 5px;
+  background-color: #f1f1f1;
+  box-shadow: 0 0 20px rgb(80, 80, 80);
+  text-transform: capitalize;
+}
+
+.form-group{
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  min-height: 100vh;
-  font-size: calc(10px + 2vmin);
+}
+
+.label_area{
+  width: 25%;
+}
+.label_area_btn{
+  width: 20%;
+}
+.profile_img{
+  width: 40px;
+  height: 40px;
+  border-radius: 100%;
+}
+
+
+.header_bg{
+  background-color: rgb(3, 119, 119);
 }
