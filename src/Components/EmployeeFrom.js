@@ -192,7 +192,7 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
 
                     <div className="text-center">
                         <button className="btn btn-success mr-2" type="submit">Save</button>
-                        <button className="btn btn-info" type="reset" onClick={resetForm}>Reset</button>
+                        { params.id ? "" : <button className="btn btn-info" type="reset" onClick={resetForm}>Reset</button> }
                     </div>
 
                 </form>
