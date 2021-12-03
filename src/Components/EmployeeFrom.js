@@ -33,7 +33,6 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
         employeesArr.forEach(element => {
             if (element.id == params.id) {
                 document.getElementById("employee_id").value = params.id;
-
                 setEmployee({
                     id: element.id,
                     name: element.name,
@@ -50,9 +49,7 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
 
     const submitHandler = e => {
         e.preventDefault();
-
         let emp_id = document.getElementById("employee_id").value
-
         if (emp_id) {
             employeesArr.forEach(item => {
                 if (emp_id == item.id) {
@@ -124,27 +121,29 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
                 <hr />
                 <form id="myForm" onSubmit={submitHandler}>
                     <input type="hidden" id="employee_id" />
+
                     <div className="form-group">
                         <label htmlFor="name" className="label_area" >Name : </label>
-                        <input type="text" className="form-control shadow-sm" placeholder="Enter Name" id="name" name="name" value={employee.name} onChange={(e) => { setEmployee({ ...employee, name: e.target.value }) }} required />
+                        <input type="text" className="form-control shadow-sm" placeholder="Enter Name" id="name" name="name"
+                            value={employee.name} onChange={(e) => { setEmployee({ ...employee, name: e.target.value }) }} required />
                     </div>
 
                     <div className="form-group">
                         <label htmlFor="profilePic" className="label_area_btn">Profile Image : </label>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" className="custom-control-input radio_input" id="img1" name="profile_img" value={img1} onClick={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} />
+                            <input type="radio" className="custom-control-input radio_input" id="img1" name="profile_img" value={img1} onChange={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} checked={employee.profilePic === img1} />
                             <label className="custom-control-label" htmlFor="img1"><img className="profile_img" src={img1} alt="" /></label>
                         </div>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" className="custom-control-input radio_input" id="img2" name="profile_img" value={img2} onClick={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} />
+                            <input type="radio" className="custom-control-input radio_input" id="img2" name="profile_img" value={img2} onChange={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} checked={employee.profilePic === img2} />
                             <label className="custom-control-label" htmlFor="img2"><img className="profile_img" src={img2} alt="" /></label>
                         </div>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" className="custom-control-input radio_input" id="img3" name="profile_img" value={img3} onClick={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} />
+                            <input type="radio" className="custom-control-input radio_input" id="img3" name="profile_img" value={img3} onChange={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} checked={employee.profilePic === img3} />
                             <label className="custom-control-label" htmlFor="img3"><img className="profile_img" src={img3} alt="" /></label>
                         </div>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" className="custom-control-input radio_input" id="img4" name="profile_img" value={img4} onClick={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} />
+                            <input type="radio" className="custom-control-input radio_input" id="img4" name="profile_img" value={img4} onChange={(e) => { setEmployee({ ...employee, profilePic: e.target.value }) }} checked={employee.profilePic === img4} />
                             <label className="custom-control-label" htmlFor="img4"><img className="profile_img" src={img4} alt="" /></label>
                         </div>
                     </div>
@@ -152,11 +151,13 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
                     <div className="form-group">
                         <label htmlFor="gender" className="label_area_btn">Gender : </label>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" className="custom-control-input" id="male" name="gender" value="male" onClick={(e) => { setEmployee({ ...employee, gender: e.target.value }) }} />
+                            <input type="radio" className="custom-control-input" id="male" name="gender" value="male" onChange={(e) => { setEmployee({ ...employee, gender: e.target.value }) }} checked={employee.gender === "male"} />
                             <label className="custom-control-label" htmlFor="male">Male</label>
                         </div>
                         <div className="custom-control custom-radio custom-control-inline">
-                            <input type="radio" className="custom-control-input" id="female" name="gender" value="female" onClick={(e) => { setEmployee({ ...employee, gender: e.target.value }) }} />
+                            <input type="radio" className="custom-control-input" id="female" name="gender" value="female"
+                                onChange={(e) => { setEmployee({ ...employee, gender: e.target.value }) }}
+                                checked={employee.gender === "female"} />
                             <label className="custom-control-label" htmlFor="female">Female</label>
                         </div>
                     </div>
@@ -167,10 +168,9 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
                             departmentData.map((dp, i) => {
                                 return <div key={i} className="custom-control custom-checkbox custom-control-inline">
                                     <input type="checkbox" className="custom-control-input" id={dp.name} value={dp.name}
-                                        name="department" onClick={(e) => { checkDepartments(e) }} />
+                                        name="department" onChange={(e) => { checkDepartments(e) }} checked={employee.department.includes(dp.name)} />
                                     <label className="custom-control-label" htmlFor={dp.name}>{dp.name}</label>
                                 </div>
-
                             })
                         }
                     </div>

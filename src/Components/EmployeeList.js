@@ -41,7 +41,7 @@ function EmployeeList({ employees, setEmployeesArr }) {
                             employees.length > 0 ?
                                 employees.map((employee, index) => {
                                     return <tr key={employee.id}>
-                                        <td>{employee.name} </td>
+                                        <td className="text-left"> <img src={employee.profilePic} className="profile_img mr-2" /> {employee.name} </td>
                                         <td>{employee.gender}</td>
                                         <td>{employee.department.map((emp, i) => <span className="department_badde badge  badge-info mr-1" key={i}>{emp}</span>)}</td>
                                         <td>{employee.salary}</td>
