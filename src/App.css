@@ -42,3 +42,15 @@
 .header_bg{
   background-color: rgb(3, 119, 119);
 }
+
+.sort_btn{
+  width: 20px;
+  height: 24px;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgb(3, 119, 119);
+  outline: none !important;
+  border: none !important;
+}

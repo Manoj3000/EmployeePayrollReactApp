@@ -6,9 +6,9 @@ import img3 from "../assets/images/img3.png"
 import img4 from "../assets/images/img4.png"
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import axios from "axios";
 
-
-function EmployeeFrom({ employeesArr, setEmployeesArr }) {
+function EmployeeFrom() {
 
     const navigate = useNavigate();
     const params = useParams()
@@ -18,7 +18,7 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
 
     const [employee, setEmployee] = useState(
         {
-            id: employeesArr.length,
+            id: "",
             name: "",
             profilePic: "",
             gender: "",
@@ -30,51 +30,59 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
     );
 
     useEffect(() => {
-        employeesArr.forEach(element => {
-            if (element.id == params.id) {
-                document.getElementById("employee_id").value = params.id;
-                setEmployee({
-                    id: element.id,
-                    name: element.name,
-                    profilePic: element.profilePic,
-                    gender: element.gender,
-                    department: element.department,
-                    salary: element.salary,
-                    startDate: element.startDate,
-                    note: element.note
+        if (params.id) {
+            document.getElementById("employee_id").value = params.id;
+
+            axios.get('http://localhost:8085/getEmployee', {
+                headers: {
+                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXBfaWQiOjYxfQ.SP7ZibMp86MqgP4dUuZf5kVajySTLxg0lh1Xiw4dly0"
+                }
+            })
+                .then(res => {
+                    setDepartmentArr(res.data.token.department)
+                    setEmployee({
+                        id: res.data.token.id,
+                        name: res.data.token.name,
+                        profilePic: res.data.token.profilePic,
+                        gender: res.data.token.gender,
+                        department: res.data.token.department,
+                        salary: res.data.token.salary,
+                        startDate: res.data.token.startDate,
+                        note: res.data.token.note
+                    })
                 })
-            }
-        });
+                .catch(err => {
+                    toast.error("Something Went Wrong!")
+                    console.log(err);
+                })
+        }
     }, [])
 
     const submitHandler = e => {
         e.preventDefault();
         let emp_id = document.getElementById("employee_id").value
         if (emp_id) {
-            employeesArr.forEach(item => {
-                if (emp_id == item.id) {
-                    item.id = employee.id;
-                    item.name = employee.name;
-                    item.profilePic = employee.profilePic;
-                    item.gender = employee.gender;
-                    item.department = employee.department;
-                    item.salary = employee.salary;
-                    item.startDate = employee.startDate;
-                    item.note = employee.note;
+            axios.put('http://localhost:8085/editEmployee', employee, {
+                headers: {
+                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXBfaWQiOjYxfQ.SP7ZibMp86MqgP4dUuZf5kVajySTLxg0lh1Xiw4dly0"
                 }
             })
-            localStorage.setItem("employees", JSON.stringify([...employeesArr]));
-            toast.success('Updated Successfully!', {
-                position: "bottom-right",
-                autoClose: 2000,
-            });
+                .then((res) => {
+                    toast.success('Updated Successfully!');
+                })
+                .catch(err => {
+                    toast.error("Something Went Wrong!")
+                    console.log(err);
+                })
         } else {
-            setEmployeesArr([...employeesArr, employee]);
-            localStorage.setItem("employees", JSON.stringify([...employeesArr, employee]));
-            toast.success('Added Successfully!', {
-                position: "bottom-right",
-                autoClose: 2000,
-            });
+            axios.post('http://localhost:8085/addEmployee', employee)
+                .then((res) => {
+                    toast.success('Added Successfully!');
+                })
+                .catch(err => {
+                    toast.error("Something Went Wrong!")
+                    console.log(err);
+                })
         }
         setTimeout(() => { resetForm(); navigate("/"); }, 3000);
     }
@@ -98,7 +106,7 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
 
     const resetForm = () => {
         setEmployee({
-            id: employeesArr.length + 1,
+            id: "",
             name: "",
             profilePic: "",
             gender: "",
@@ -192,7 +200,7 @@ function EmployeeFrom({ employeesArr, setEmployeesArr }) {
 
                     <div className="text-center">
                         <button className="btn btn-success mr-2" type="submit">Save</button>
-                        { params.id ? "" : <button className="btn btn-info" type="reset" onClick={resetForm}>Reset</button> }
+                        {params.id ? "" : <button className="btn btn-info" type="reset" onClick={resetForm}>Reset</button>}
                     </div>
 
                 </form>

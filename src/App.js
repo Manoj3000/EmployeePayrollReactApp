@@ -2,37 +2,24 @@ import './App.css';
 import EmployeeFrom from './Components/EmployeeFrom';
 import EmployeeList from './Components/EmployeeList';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-
 function App() {
-
-  const [employeesArr, setEmployeesArr] = useState([]);
-
-  const employees = JSON.parse(localStorage.getItem("employees"));
-
-  useEffect(() => {
-    if (employees != null) {
-      if (employees.lenght > 0) {
-        setEmployeesArr([])
-      } else {
-        setEmployeesArr(employees);
-      }
-    }
-  }, [])
-
   return (
     <BrowserRouter>
       <div className="app">
         <Routes>
-          <Route path="/" element={<EmployeeList employees={employeesArr} setEmployeesArr={setEmployeesArr} />} />
-          <Route path="/add" element={<EmployeeFrom employeesArr={employeesArr} setEmployeesArr={setEmployeesArr} />} />
-          <Route path="/edit/:id" element={<EmployeeFrom employeesArr={employeesArr} setEmployeesArr={setEmployeesArr} />} />
+          <Route path="/" element={<EmployeeList />} />
+          <Route path="/add" element={<EmployeeFrom />} />
+          <Route path="/edit/:id" element={<EmployeeFrom />} />
         </Routes>
       </div>
-      <ToastContainer />
+      <ToastContainer 
+        position="bottom-right"
+        autoClose={3000}
+      />
     </BrowserRouter>
   );
 }
