@@ -8,31 +8,76 @@ function EmployeeList() {
 
     const [employeesArr, setEmployeesArr] = useState([]);
 
-    const [currentSort, setCurrentSort] = useState('default');
+    const [sortOn, setSortOn] = useState('name');
+    const [currentNameSort, setCurrentNameSort] = useState('default');
+    const [currentSalarySort, setCurrentSalarySort] = useState('default');
 
     const sortTypes = {
-        up: {
-            class: 'sort-up',
-            fn: (a, b) => a.salary - b.salary
+        name: {
+            up: {
+                title: 'Ascending',
+                class: 'sort-up',
+                fn: (x, y) => {
+                    if (x.name > y.name) return 1;
+                    else if (x.name < y.name) return -1;
+                    return 0;
+                }
+            },
+            down: {
+                title: 'Descending',
+                class: 'sort-down',
+                fn: (x, y) => {
+                    if (x.name < y.name) return 1;
+                    else if (x.name > y.name) return -1;
+                    return 0;
+                }
+            },
+            default: {
+                title: 'Default',
+                class: 'sort',
+                fn: (x, y) => x
+            }
         },
-        down: {
-            class: 'sort-down',
-            fn: (a, b) => b.salary - a.salary
-        },
-        default: {
-            class: 'sort',
-            fn: (a, b) => a
+        salary: {
+            up: {
+                title: 'Ascending',
+                class: 'sort-up',
+                fn: (a, b) => a.salary - b.salary
+            },
+            down: {
+                title: 'Descending',
+                class: 'sort-down',
+                fn: (a, b) => b.salary - a.salary
+            },
+            default: {
+                title: 'Default',
+                class: 'sort',
+                fn: (a, b) => a
+            }
         }
     };
 
-    const onSortChange = () => {
+    const onSortChange = (sortField) => {
         let nextSort;
+        setSortOn(sortField);
 
-        if (currentSort === 'down') nextSort = 'up';
-        else if (currentSort === 'up') nextSort = 'default';
-        else if (currentSort === 'default') nextSort = 'down';
+        if (sortField === 'name') {
+            if (currentNameSort === 'down') nextSort = 'default';
+            else if (currentNameSort === 'up') nextSort = 'down';
+            else if (currentNameSort === 'default') nextSort = 'up';
 
-        setCurrentSort(nextSort);
+            setCurrentNameSort(nextSort);
+            setCurrentSalarySort('default');            
+
+        } else if (sortField === 'salary') {
+            if (currentSalarySort === 'down') nextSort = 'default';
+            else if (currentSalarySort === 'up') nextSort = 'down';
+            else if (currentSalarySort === 'default') nextSort = 'up';
+
+            setCurrentSalarySort(nextSort);
+            setCurrentNameSort('default');
+
+        }
     };
 
     useEffect(() => {
@@ -79,12 +124,16 @@ function EmployeeList() {
                     <thead className="header_bg text-white">
                         <tr>
                             <th>ID</th>
-                            <th>Name</th>
+                            <th>Name
+                                <button className="sort_btn" onClick={() => onSortChange('name')}>
+                                    <i className={`fa fa-${sortTypes['name'][currentNameSort].class}`} title={sortTypes['name'][currentNameSort].title} />
+                                </button>
+                            </th>
                             <th>Gender</th>
                             <th>Department</th>
-                            <th className="d-flex"> Salary
-                                <button className="sort_btn" onClick={onSortChange}>
-                                    <i className={`fa fa-${sortTypes[currentSort].class}`} />
+                            <th>Salary
+                                <button className="sort_btn" onClick={() => onSortChange('salary')}>
+                                    <i className={`fa fa-${sortTypes['salary'][currentSalarySort].class}`} title={sortTypes['salary'][currentSalarySort].title} />
                                 </button>
                             </th>
                             <th>Start Date</th>
@@ -94,7 +143,7 @@ function EmployeeList() {
                     <tbody>
                         {
                             employeesArr.length > 0 ?
-                                [...employeesArr].sort(sortTypes[currentSort].fn).map((employee, index) => {
+                                [...employeesArr].sort((sortOn === "name") ? sortTypes[sortOn][currentNameSort].fn : sortTypes[sortOn][currentSalarySort].fn).map((employee, index) => {
                                     return <tr key={employee.id}>
                                         <td>{employee.id}</td>
                                         <td className="text-left"> <img src={employee.profilePic} className="profile_img mr-2" /> {employee.name} </td>
