@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import axios from "axios";
 
 
-function EmployeeList() {
+function EmployeeList({loginToken}) {
 
     const [employeesArr, setEmployeesArr] = useState([]);
 
@@ -87,7 +87,11 @@ function EmployeeList() {
     }, [])
 
     const getEmployees = () => {
-        axios.get('http://localhost:8085/getEmployees')
+        axios.get('http://localhost:8085/getEmployees',{
+            headers : {
+                loginToken : loginToken
+            }
+        })
             .then(res => {
                 setEmployeesArr(res.data.token);
                 // toast.success('Fetch  Employees Successfully!');
@@ -101,7 +105,8 @@ function EmployeeList() {
     const deleteEmployee = id => {
         axios.delete('http://localhost:8085/deleteEmployee', {
             headers: {
-                token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXBfaWQiOjU5fQ.66R9pkcN7oRSS_I5NfW5CocldTBQn4mh3KEd3V4z0RE"
+                loginToken : loginToken,
+                id: id
             }
         })
             .then(res => {
@@ -171,6 +176,7 @@ function EmployeeList() {
         } else {
             axios.delete('http://localhost:8085/deleteEmployees', {
                 headers: {
+                    loginToken: loginToken,
                     ids : selectedRows
                 }
             })

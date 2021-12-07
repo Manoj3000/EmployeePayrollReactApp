@@ -8,7 +8,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from "axios";
 
-function EmployeeFrom() {
+function EmployeeFrom({loginToken}) {
 
     const navigate = useNavigate();
     const params = useParams()
@@ -35,7 +35,8 @@ function EmployeeFrom() {
 
             axios.get('http://localhost:8085/getEmployee', {
                 headers: {
-                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXBfaWQiOjYxfQ.SP7ZibMp86MqgP4dUuZf5kVajySTLxg0lh1Xiw4dly0"
+                    loginToken: loginToken,
+                    id: params.id
                 }
             })
                 .then(res => {
@@ -64,7 +65,8 @@ function EmployeeFrom() {
         if (emp_id) {
             axios.put('http://localhost:8085/editEmployee', employee, {
                 headers: {
-                    token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJlbXBfaWQiOjYxfQ.SP7ZibMp86MqgP4dUuZf5kVajySTLxg0lh1Xiw4dly0"
+                    loginToken :loginToken,
+                    id: emp_id
                 }
             })
                 .then((res) => {
@@ -75,7 +77,11 @@ function EmployeeFrom() {
                     console.log(err);
                 })
         } else {
-            axios.post('http://localhost:8085/addEmployee', employee)
+            axios.post('http://localhost:8085/addEmployee', employee, {
+                headers : {
+                    loginToken: loginToken
+                }
+            })
                 .then((res) => {
                     toast.success('Added Successfully!');
                 })

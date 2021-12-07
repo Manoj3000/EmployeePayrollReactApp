@@ -54,3 +54,64 @@
   outline: none !important;
   border: none !important;
 }
+
+.action_btn{
+  cursor: pointer;
+}
+ 
+
+/* Login */
+
+.login_box{
+  color: teal;
+  width: 350px;
+  margin: 100px auto 0;
+  border: 1px solid white;
+  padding: 20px 30px;
+  box-shadow: 0 0 10px rgb(47, 47, 48);   
+  background: #e5e4e4;
+  border-radius: 4px;
+}
+.login_box h2{
+  margin: 0px auto;
+  letter-spacing: 2px;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  text-align: center;
+}
+
+.input{
+  width: 100%;
+  height: 40px;
+  margin-bottom: 20px;
+  margin-top: 5px;
+  padding: 10px;
+  border: 1px solid lightslategrey;
+  border-radius: 4px;
+  font-size: 14px;
+}
+.input:focus {
+  outline: none !important;
+  border: 1px solid lightskyblue;
+  box-shadow: 0 0 4px 1px rgb(2, 179, 179);
+}
+
+.login_btn{
+  border-radius: 4px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  width: 100%;
+  height: 40px;
+  border: 1px solid lightslategrey;
+  background: rgb(1, 161, 161);
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  transition: .2s;
+}
+.login_btn:hover{
+  background: rgb(1, 179, 179);
+  border: 1px solid lightskyblue;
+  box-shadow: 0 0 4px 1px rgb(2, 206, 206);
+}
